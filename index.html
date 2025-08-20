@@ -1,0 +1,461 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>,,,</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        
+        html, body {
+            scroll-behavior: smooth;
+            height: 100%;
+        }
+        
+        /* 导航样式 */
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 10px 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        nav ul {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #f8f9fa;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            background: rgba(16, 13, 93, 0.4);
+        }
+        
+        nav a:hover {
+            background: rgba(132, 163, 247, 0.8);
+            transform: translateY(-2px);
+        }
+        
+        /* 页面容器 */
+        .page {
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 首页样式 */
+        #home {
+            background-color: #5E7EA7;
+            color: white;
+            text-align: center;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #home::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1000%;
+            height: 800%;
+            background: inherit;
+            filter: blur(10px);
+            z-index: -1;
+        }
+        
+        .home-content {
+            max-width: 800px;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
+        }
+        
+        .home-content h1 {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            -webkit-background-clip: text;
+            background-color: #002663;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 8s infinite alternate;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        
+        .home-content p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.6;
+        }
+        
+        
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(40px, -30px); }
+            50% { transform: translate(-20px, 40px); }
+            75% { transform: translate(30px, 20px); }
+        }
+
+        
+
+        /* 角色 */
+        #character {
+            align-items: flex-start;
+            justify-content: flex-start;
+            background: linear-gradient(to bottom, #f5f7fa 0%, #e4efe9 100%);
+            color: #333;
+            padding: 80px 20px;
+        }
+
+        .character-container {
+            display: flex;
+            flex-direction: row; 
+            align-items: stretch; 
+            max-width: 1200px;
+            width: 100%;
+            gap: 30px;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            margin: 0;
+        }
+
+/* 图片*/
+        .character-image {
+            flex: 0 0 40%; 
+            min-height: 500px; 
+            background-color: white;
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+/* 图片占位符 */
+        .character-image .placeholder {
+            width: 90%; 
+            height: 90%; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        .character-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            border-radius: 12px; 
+        }
+
+        /* 文字 */
+        .character-details {
+            flex: 1; 
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .character-details h2 {
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+            color: #002663;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .character-details h2::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 180px;
+            height: 4px;
+            background-color: #3d557b;
+            border-radius: 2px;
+        }
+        
+        .character-info {
+            margin-bottom: 30px;
+        }
+        
+        .character-info p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+       
+        .stat {
+            background: #f8f7ff;
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 4px solid #6bc3e8;
+        }
+        
+        .stat h4 {
+            color: #002663;
+            margin-bottom: 5px;
+        }
+
+        .text{
+            width: 330px;
+            height: 110px;
+            background-color: #a8a7aa;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .img .text {
+            width: 110px;
+            height: inherit;
+            background-color: #AA9CB6;
+            border-radius: 5px;
+        }
+
+        .text .text1 {
+            width: 200px;
+            height: inherit;
+            background-color: #AA9BB8;
+            margin-bottom: 30px;
+        }
+        
+      
+        
+        /* 响应 式*/
+        @media (max-width: 900px) {
+            .character-container {
+                flex-direction: column;
+            }
+            
+            .character-image {
+                min-height: 350px;
+            }
+            
+            nav ul {
+                gap: 10px;
+            }
+            
+            nav a {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .home-content h1 {
+                font-size: 3.5rem;
+            }
+            
+            .worldview-content h2 {
+                font-size: 2.5rem;
+            }
+            
+            
+             nav {
+   
+                padding: 8px 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航 -->
+    <nav>
+        <ul>
+            <li><a href="#home">home page</a></li>
+            <li><a href="#character">aaa</a></li>
+            <li><a href="#character2">aaa</a></li>
+            <li><a href="#character3">aaa</a></li>
+            <li><a href="#character4">aaa</a></li>
+            <li><a href="#character5">aaa</a></li>
+        </ul>
+    </nav>
+
+    <!-- home page -->
+    <section id="home" class="page">
+        <div class="home-content">
+            <h1>bird neighbors</h1>
+            <p>aaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+        </div>
+    </section>
+
+    <!-- card1 -->
+    <section id="character" class="page">
+        <div class="character-container">
+           <div class="character-image">
+                <div class="placeholder">
+                    <img src="https://img13.360buyimg.com/ddimg/jfs/t1/324263/7/7398/65057/68a455c2Fa8cb133c/e2b051d1c65b104e.jpg" 
+                    alt="aaa">
+                </div>
+            </div>
+        
+            <div class="character-details">
+                <h2>星头啄木鸟</h2>
+                <div class="character-info">
+                <h3>
+星头啄木鸟是?形目啄木鸟科啄木鸟属鸟类，又称北啄木鸟、红星头喯打木、红星啄木等。[6]头顶灰褐色，虹膜褐色，嘴铅灰色，脚灰黑色。雄鸟眼后上方具红色条纹，宽的白色眉纹一直延伸到颈侧，后颈、上背和肩黑色，上背、两翼和腰黑色且具白色横斑，尾黑色，外侧尾羽白色具黑斑，胸部淡棕色而具细黑褐色纵纹，腹部污白色而具淡褐色纵纹；雌鸟似雄鸟，但眼后上方无红色。[7]
+星头啄木鸟分布于巴基斯坦及东南亚各国。在中国分布于东北、华北、华东、华南、西南及西藏东南部。[8]栖息于季风常绿阔叶林、针阔混交林。喜有大树的林地，飞行迅速，呈波浪状前进。常单独或成对活动。以天牛、蚂蚁、小蠹及甲虫等昆虫为食，偶尔也吃植物果实和种子。[8]繁殖期为4—7月。[9]营树洞巢，每窝产卵3—5枚。[10]雏鸟晚成性。[11]
+星头啄木鸟属留鸟，[9]被列入中国国家林业局发布的《国家保护的有益的或者有重要经济、科学研究价值的陆生野生动物名录》；[12]属于中国安徽省一级保护鸟类。
+                </h3>
+                    <!--<p><strong>aaa</strong>aaa</p>
+                    <p><strong>aaa</strong>aaa</p>
+                    <p><strong>aaa</strong>aaa</p>
+                    <p><strong>aaa</strong>aaa</p>
+                    <p><strong>aaa</strong>aaa</p>-->
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- card2 -->
+    <section id="character2" class="page">
+        <div class="character-container">
+           <div class="character-image">
+                <div class="placeholder">
+                    <img src="https://img12.360buyimg.com/ddimg/jfs/t1/323939/14/7513/39790/68a455a5F3e508c7f/380643c6e6fd1ab8.jpg" 
+                    alt="aaa">
+                </div>
+            </div>
+        
+            <div class="character-details">
+                <h2>灰头绿啄木鸟</h2>
+                <div class="character-info">
+                    <p><strong>中文名：</strong>灰头绿啄木鸟</p>
+                    <p><strong>学名：</strong>Picus canus</p>
+                    <p><strong>分类地位：</strong>鸟纲 鴷形目 (攀禽类）</p>
+                    <p><strong>外观</strong>识别特征为下体全灰，颊及喉亦灰。雄鸟前顶冠猩红，眼先及狭窄颊纹黑色。枕及尾黑色。雌鸟顶冠灰色而无红斑。嘴相对短而钝。诸多亚种大小及色彩各异。雌性sobrinus头顶及枕黑色。雌性tancolo及kogo顶后及枕部具黑色条纹。虹膜红褐；嘴近灰；脚蓝灰。</p>
+                    <p><strong>aaa：</strong>aaa</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- card3 -->
+    <section id="character3" class="page">
+        <div class="character-container">
+           <div class="character-image">
+                <div class="placeholder">
+                    <img src="https://img12.360buyimg.com/ddimg/jfs/t1/324120/27/7521/34435/68a45583F43b59612/90614f38a0ba372d.jpg" 
+                    alt="aaa">
+                </div>
+            </div>
+        
+            <div class="character-details">
+                <h2>333</h2>
+                <div class="character-info">
+                    <p><strong>aaa</strong>aaa</p>
+                    <p><strong>aaa：</strong>aaa</p>
+                    <p><strong>aaa：</strong>aaa</p>
+                    <p><strong>aaa：</strong>aaa</p>
+                    <p><strong>aaa：</strong>aaa</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- card4 -->
+    <section id="character4" class="page">
+        <div class="character-container">
+           <div class="character-image">
+                <div class="placeholder">
+                    <img src="https://img13.360buyimg.com/ddimg/jfs/t1/324039/31/7335/33305/68a45564F4c047d40/3ec84bbaab65b2ea.jpg" 
+                    alt="aaa">
+                </div>
+            </div>
+        
+            <div class="character-details">
+                <h2>444</h2>
+                <div class="character-info">
+                    <p><strong>aaa</strong>aaa</p>
+                    <p><strong>aaa：</strong>aaa</p>
+                    <p><strong>aaa：</strong>aaa</p>
+                    <p><strong>aaa：</strong>aaa</p>
+                    <p><strong>aaa：</strong>aaa</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- card5 -->
+    <section id="character5" class="page">
+        <div class="character-container">
+           <div class="character-image">
+                <div class="placeholder">
+                    <img src="https://img10.360buyimg.com/ddimg/jfs/t1/324561/9/7324/24506/68a45542Fca68c492/d041f52b80f84e5b.jpg" 
+                    alt="aaa">
+                </div>
+            </div>
+        
+            <div class="character-details">
+                <h2>555</h2>
+                <div class="character-info">
+                    <p><strong>aaa</strong>aaa</p>
+                    <p><strong>aaa</strong>aaa</p>
+                    <p><strong>aaa</strong>aaa</p>
+                    <p><strong>aaa</strong>aaa</p>
+                    <p><strong>aaa</strong>aaa</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    
+</body>
+</html>
